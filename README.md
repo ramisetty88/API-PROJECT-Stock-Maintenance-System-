@@ -1,5 +1,8 @@
 Stock Maintenance System
+
+
 📌 Project Content
+
 This is a web-based Stock maintenance system that allows users to place orders,view their orders and view their products,And admins can add products,view products,view orders and view list of customers.
 Admin Dashboard:
 
