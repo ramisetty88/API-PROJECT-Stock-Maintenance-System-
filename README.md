@@ -20,6 +20,16 @@ Place Order (API: POST /orders)
 View My Orders (API: GET /orders/<user_id>)
 
 
+Project Outputs:
+![Screenshot 2025-05-26 190825](https://github.com/user-attachments/assets/3a1d3d16-f94c-4a99-87c0-be58402bcfdf)
+![Screenshot 2025-05-26 191016](https://github.com/user-attachments/assets/195ccbbc-f581-4211-8467-e7ca140b5c35)
+![Screenshot 2025-05-26 190914](https://github.com/user-attachments/assets/b31a2699-fc6e-40a0-956c-ab89a917dec3)
+![Screenshot 2025-05-26 190927](https://github.com/user-attachments/assets/db256d3c-e853-42b4-95ef-1a724a441970)
+![Screenshot 2025-05-26 190940](https://github.com/user-attachments/assets/4ea81ca8-d9df-4283-8fc5-68ccdbdf61d0)
+![Screenshot 2025-05-26 190848](https://github.com/user-attachments/assets/e1696fcc-f0f1-4137-b0a3-adb2c6d099a6)
+![Screenshot 2025-05-26 191029](https://github.com/user-attachments/assets/a139b376-524c-4c76-b0da-69d27991155c)
+
+
 🚀Project code:
 ```python
 from flask import Flask,request,jsonify
@@ -357,14 +367,6 @@ Places orders, which update the stock automatically.
 Can view their individual order history via user-specific endpoints.
 All data interactions occur through a structured set of APIs that ensure loose coupling between frontend and backend.
 
-Outputs
-![Screenshot 2025-05-26 190825](https://github.com/user-attachments/assets/3a1d3d16-f94c-4a99-87c0-be58402bcfdf)
-![Screenshot 2025-05-26 191016](https://github.com/user-attachments/assets/195ccbbc-f581-4211-8467-e7ca140b5c35)
-![Screenshot 2025-05-26 190914](https://github.com/user-attachments/assets/b31a2699-fc6e-40a0-956c-ab89a917dec3)
-![Screenshot 2025-05-26 190927](https://github.com/user-attachments/assets/db256d3c-e853-42b4-95ef-1a724a441970)
-![Screenshot 2025-05-26 190940](https://github.com/user-attachments/assets/4ea81ca8-d9df-4283-8fc5-68ccdbdf61d0)
-![Screenshot 2025-05-26 190848](https://github.com/user-attachments/assets/e1696fcc-f0f1-4137-b0a3-adb2c6d099a6)
-![Screenshot 2025-05-26 191029](https://github.com/user-attachments/assets/a139b376-524c-4c76-b0da-69d27991155c)
 
 
 🌐 Further Research
