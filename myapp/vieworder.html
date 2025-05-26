@@ -1,0 +1,35 @@
+<html>
+    <head>
+    </head>
+    <body>
+    </body>
+    <table id="tabledata" border=1>
+        <thead>
+            <tr>
+                <th>order id</th>
+                <th>customer id</th>
+                <th>product id</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+
+        <script>
+            fetch('http://localhost:5000/viewallorders').
+            then(response=>response.json()).
+            then(data=>{
+                console.log(data);
+                const tablebody=document.querySelector('#tabledata tbody')
+                data.forEach(pro=>{
+                    const row=`<tr><td>${pro.orderid}</td>
+                               <td>${pro.customerid}</td>
+                               <td>${pro.productid}</td>
+                               <td>${pro.quantity}</td></tr>`;
+                tablebody.innerHTML+=row;
+                })
+            });
+        </script>
+    </table>
+</html>

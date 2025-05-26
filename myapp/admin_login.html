@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+    <h2>LOGIN PAGE</h2>
+    <form id="login">
+        <input type="text" name="emailid" placeholder="Enter  emailid" id="emailid"><br>
+        <input type="text" name="password" placeholder="Enter  password" id="password"><br>
+        <button type="submit">LOGIN</button>
+    </form>
+
+    <script>
+        const form = document.getElementById("login");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = {
+                emailid: document.getElementById("emailid").value,
+                password: document.getElementById("password").value
+            };
+            fetch("http://localhost:5000/adminlogin", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.Message === "Login success") {
+                        alert("Login Successful");
+                        window.location.href = "admindashboard.html";
+                    } else {
+                        alert("Login failed: " + (response.Message || "Unknown error"));
+                    }
+                })
+                .catch(err => {
+                    alert("Error: " + err.message);
+                });
+        });
+    </script>
+</body>
+</html>

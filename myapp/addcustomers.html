@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Add Customer</title>
+</head>
+<body>
+    <h2>Add Customer details</h2>
+    <form id="addcustomers">
+        <input type="text" name="customername" placeholder="Enter customer name" id="customername" required></br>
+        <input type="text" name="phonenumber" placeholder="Enter phone number" id="phonenumber" required></br>
+        <button type="submit">Add product</button>
+        <p id="message"></p>
+    </form>
+
+    <script>
+        const form = document.getElementById('addcustomers');
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const data = {
+                customername: document.getElementById("customername").value,
+                phonenumber: document.getElementById("phonenumber").value,
+            };
+
+            fetch("http://localhost:5000/addcustomers", {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                alert("Customer registered successfully");
+                window.location.href = "userlogin.html"; 
+            })
+            .catch(err => {
+                console.error("Fetch error:", err);
+                document.getElementById("message").innerText = "Error connecting to server.";
+            });
+        });
+    </script>
+</body>
+</html>

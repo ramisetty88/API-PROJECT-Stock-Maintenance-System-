@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register / Login</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+    }
+
+    .box {
+      background: #ffffff;
+      padding: 30px 40px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 200px;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: none;
+      width: 100%;
+      transition: background-color 0.3s ease;
+      color: #ffffff;
+      font-weight: bold;
+      background-color: #e9370a;
+    }
+
+    button:hover {
+      background-color: #c32d08;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <button type="button" id="admin" title="Go to Admin Dashboard">Admin</button>
+    <button type="button" id="user" title="Login as User">User</button>
+  </div>
+
+  <script>
+    document.getElementById('admin').addEventListener('click', function () {
+      window.location.href = 'admin_home.html';
+    });
+
+    document.getElementById('user').addEventListener('click', function () {
+      window.location.href = 'userlogin.html';
+    });
+  </script>
+</body>
+</html>

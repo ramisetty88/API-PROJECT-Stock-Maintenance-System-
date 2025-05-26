@@ -1,0 +1,36 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <table id="tabledata" border=1>
+            <thead>
+                <tr>
+                    <th>customer id</th>
+                    <th>customer name</th>
+                    <th>customer phonenumber</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <script>
+            fetch('http://localhost:5000/viewallcustomers')
+            .then(response=>response.json())
+            .then(data=>{
+                console.log(data);
+                const tablebody=document.querySelector('#tabledata tbody')
+                data.forEach(pro=>{
+                    const row=`<tr><td>${pro.customerid}</td> 
+                                <td>${pro.customername}</td>
+                                <td>${pro.phonenumber}</td>
+                                </tr>`;
+                    tablebody.innerHTML+=row;
+
+                })
+            });
+        </script>
+    </body>
+</html>

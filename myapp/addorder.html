@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Add Orders</title>
+</head>
+<body>
+    <h2>Add New Order</h2>
+    <form id="addorder">
+        <input type="text" name="customerid" placeholder="Enter customer id" id="customerid" required><br>
+        <input type="text" name="productid" placeholder="Enter product id" id="productid" required><br>
+        <input type="text" name="quantity" placeholder="Enter quantity" id="quantity" required><br>
+        <button type="submit">Add order</button>
+        <p id="message"></p>
+    </form>
+
+    <script>
+        const form = document.getElementById("addorder");
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const data = {
+                customerid: document.getElementById("customerid").value,
+                productid: document.getElementById("productid").value,
+                quantity: document.getElementById("quantity").value
+            };
+
+            console.log("Sending data:", data);
+
+            fetch("http://localhost:5000/addorders", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === 'success') {
+                    alert("Product added successfully");
+                    document.getElementById("message").innerText = "Order added successfully.";
+                } else {
+                    document.getElementById("message").innerText = response.message || "Failed to add order.";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("message").innerText = "Error adding order.";
+            });
+        });
+    </script>
+</body>
+</html>

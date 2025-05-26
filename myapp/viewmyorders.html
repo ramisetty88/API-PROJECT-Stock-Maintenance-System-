@@ -1,0 +1,50 @@
+<html>
+  <body>
+    <h1>User History</h1>
+
+    <input type="number" id="customerid" placeholder="Enter Customer ID">
+    <button onclick="getHistory()">Get History</button>
+
+    <table id="history" border=1>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Product Quantity</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      function getHistory() {
+        const cid = document.getElementById("customerid").value;
+        if (!cid) {
+          alert("Please enter a customer ID.");
+          return;
+        }
+
+        fetch(`http://localhost:5000/userhistory?customerid=${cid}`, {
+          method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.querySelector("#history tbody");
+          tableBody.innerHTML = "";
+          data.forEach(pro => {
+            const row = `
+              <tr>
+                <td>${pro.productname}</td>
+                <td>${pro.quantity}</td>
+                <td>${pro.amount}</td>
+              </tr>`;
+            tableBody.innerHTML += row;
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching user history:", error);
+        });
+      }
+    </script>
+  </body>
+</html>

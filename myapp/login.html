@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+    <h2>LOGIN PAGE</h2>
+    <form id="login">
+        <input type="text" name="customername" placeholder="Enter customer name" id="customername"><br>
+        <input type="text" name="phonenumber" placeholder="Enter phone number" id="phonenumber"><br>
+        <button type="submit">LOGIN</button>
+    </form>
+
+    <script>
+        const form = document.getElementById("login");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const data = {
+                customername: document.getElementById("customername").value,
+                phonenumber: document.getElementById("phonenumber").value
+            };
+            fetch("http://localhost:5000/customerlogin", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(response => {
+                    if (response.Message === "Login success") {
+                        alert("Login Successful");
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert("Login failed: " + (response.Message || "Unknown error"));
+                    }
+                })
+                .catch(err => {
+                    alert("Error: " + err.message);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Add Admin</title>
+</head>
+<body>
+    <h2>Add Admin Details</h2>
+    <form id="adminregister">
+        <input type="text" name="adminname" placeholder="Enter admin name" id="adminname"><br>
+        <input type="text" name="emailid" placeholder="Enter email ID" id="emailid"><br>
+        <input type="text" name="password" placeholder="Enter password" id="password"><br>
+        <button type="submit">Admin Register</button>
+        <p id="message"></p>
+    </form>
+
+    <script>
+        const form = document.getElementById('adminregister');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const data = {
+                adminname: document.getElementById("adminname").value.trim(),
+                emailid: document.getElementById("emailid").value.trim(),
+                password: document.getElementById("password").value.trim()
+            };
+
+            if (!data.adminname || !data.emailid || !data.password) {
+                alert("All fields are required.");
+                return;
+            }
+
+            fetch("http://localhost:5000/adminregister", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.message === "Admin added successfully") {
+                    alert("Successfully registered");
+                    document.getElementById("message").innerText = "Successfully registered";
+                    form.reset();
+                } else {
+                    alert("Registration failed: " + (response.error || "Unknown error"));
+                    document.getElementById("message").innerText = "Registration failed";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error occurred while registering admin.");
+                document.getElementById("message").innerText = "Error occurred.";
+            });
+        });
+    </script>
+</body>
+</html>
