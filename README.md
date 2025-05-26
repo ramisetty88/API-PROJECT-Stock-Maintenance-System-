@@ -17,13 +17,14 @@ Place Order (API: POST /orders)
 View My Orders (API: GET /orders/<user_id>)
 
 🚀Project code:
+
+
 from flask import Flask,request,jsonify
 from flask_mysqldb import MySQL
 from datetime import datetime,timedelta 
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager,create_access_token,jwt_required,get_jwt,get_jwt_identity
 from flask_cors import CORS
-
 stock=Flask(__name__) 
 CORS(stock)
 stock.config['MYSQL_USER']="root"
@@ -42,7 +43,6 @@ def addproducts():
     cur.execute("insert into products(productname,quantity,price,status)values(%s,%s,%s,%s)",(productname,quantity,price,status))
     mysql.connection.commit()
     return "addproducts"       
-
 @stock.route("/addcustomers",methods=["POST"])
 def addcustomers():
     data=request.json
@@ -52,48 +52,34 @@ def addcustomers():
     cur.execute("insert into customer(customername,phonenumber)values(%s,%s)",(customername,phonenumber))
     mysql.connection.commit()
     return "addcustomers"
-
 @stock.route("/addorders", methods=["POST"])
 def addorders():
     data = request.json
     customerid = data['customerid']
     productid = data['productid']
     quantity = int(data['quantity'])  
-
     cur = mysql.connection.cursor()
-
     cur.execute("SELECT * FROM products WHERE productid = %s", (productid,))
     product = cur.fetchone()
-
     cur.execute("SELECT * FROM customer WHERE customerid = %s", (customerid,))
     customer = cur.fetchone()
-
     if not product:
         return jsonify({"error": "Product not found"}), 404
     if not customer:
         return jsonify({"error": "Customer not found"}), 404
-
-
     cur.execute("SELECT * FROM products WHERE productid = %s AND quantity >= %s", (productid, quantity))
     available_product = cur.fetchone()
     if not available_product:
         return jsonify({"message": "Not enough quantity to order"}), 400
-
     price = float(product[3])  
     amount = price * quantity
-
     cur.execute("INSERT INTO orders (customerid, productid, quantity, amount) VALUES (%s, %s, %s, %s)",
                 (customerid, productid, quantity, amount))
     cur.execute("UPDATE products SET quantity = quantity - %s WHERE productid = %s",
                 (quantity, productid))
-
     mysql.connection.commit()
     cur.close()
-
     return jsonify({"status": "success", "message": "Order added successfully"}), 200
-
-
-
 @stock.route("/viewallproducts",methods=["GET"])
 def viewallproducts():
     cur=mysql.connection.cursor()
@@ -102,8 +88,6 @@ def viewallproducts():
     col_name=[desc[0] for desc in cur.description]
     results=[dict(zip(col_name,row))for row in rows]
     return jsonify(results)
-
-
 @stock.route("/viewallcustomers",methods=["GET"])
 def viewallcustomers():
     cur=mysql.connection.cursor()
@@ -112,8 +96,6 @@ def viewallcustomers():
     col_name=[desc[0] for desc in cur.description]
     results=[dict(zip(col_name,row))for row in rows]
     return jsonify(results)
-
-
 @stock.route("/viewallorders",methods=["GET"])
 def viewallorders():
     cur=mysql.connection.cursor()
@@ -122,8 +104,6 @@ def viewallorders():
     col_name=[desc[0] for desc in cur.description]
     results=[dict(zip(col_name,row))for row in rows]
     return jsonify(results)
-
-
 @stock.route("/getparticularproduct/<int:id>",methods=["GET"])
 def getparticularproduct(id):
     cur=mysql.connection.cursor()
@@ -133,7 +113,6 @@ def getparticularproduct(id):
     if row:
         return jsonify(row)
     return jsonify({"error":"no record found"})
-
 @stock.route("/getparticularcustomer/<int:id>",methods=["GET"])
 def getparticularcustomer(id):
     cur=mysql.connection.cursor()
@@ -143,7 +122,6 @@ def getparticularcustomer(id):
     if row:
         return jsonify(row)
     return jsonify({"error":"no record found"})
-
 @stock.route("/getparticularorder/<int:id>",methods=["GET"])
 def getparticularorder(id):
     cur=mysql.connection.cursor()
@@ -153,22 +131,18 @@ def getparticularorder(id):
     if row:
         return jsonify(row)
     return jsonify({"error":"no record found"})
-
-
 @stock.route("/deleteproduct/<int:id>",methods=["DELETE"])
 def deleteproduct(id):
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM orders WHERE productid=%s", (id,))
     mysql.connection.commit()
     cur.execute("DELETE FROM products WHERE productid=%s", (id,))
-
     mysql.connection.commit()
     rowcount = cur.rowcount
     if rowcount == 0:
         return jsonify({"error": "product not found to delete"}), 404
     return jsonify({"message": "product and associated orders deleted successfully", "id": id}), 200
     cur.close()
-
 @stock.route("/deletecustomer/<int:id>", methods=["DELETE"])
 def deletecustomer(id):
     cur = mysql.connection.cursor()
@@ -181,8 +155,6 @@ def deletecustomer(id):
         return jsonify({"error": "Customer not found to delete"}), 404
     return jsonify({"message": "Customer and associated orders deleted successfully", "id": id}), 200
     cur.close()
-
-
 @stock.route("/deleteorder/<int:id>",methods=["DELETE"])
 def deleteorder(id):
     cur=mysql.connection.cursor()
@@ -192,7 +164,6 @@ def deleteorder(id):
     if rowcount==0:
         return jsonify({"error":"order not found to delete"})#404
     return jsonify({"message":"order deleted successfully","id":id})#200
-
 @stock.route("/updateproduct/<int:id>",methods=["PUT"])
 def updateproduct(id):
     cur=mysql.connection.cursor()
@@ -206,7 +177,6 @@ def updateproduct(id):
     if rowcount==0:
         return jsonify({"error":"product not found to update"})#404
     return jsonify({"message":"product updated successfully","id":id})#200
-
 @stock.route("/updatecustomer/<int:id>",methods=["PUT"])
 def updatecustomer(id):
     cur=mysql.connection.cursor()
@@ -219,7 +189,6 @@ def updatecustomer(id):
     if rowcount==0:
         return jsonify({"error":"customer not found to update"})#404
     return jsonify({"message":"customer updated successfully","id":id})#200
-
 @stock.route("/updateorder/<int:id>",methods=["PUT"])
 def updateorder(id):
     cur=mysql.connection.cursor()
@@ -269,9 +238,6 @@ def userhistory():
     col_names = [desc[0] for desc in cur.description]
     results = [dict(zip(col_names, row)) for row in rows]
     return jsonify(results)
-
-
-
 @stock.route("/customerlogin", methods=['POST'])
 def customerlogin():
     data = request.json
@@ -350,6 +316,8 @@ def adminlogin():
  
 if __name__=="__main__":
     stock.run(debug=True)
+
+    
     
 🛠️ Tech Stack
 Frontend: HTML, CSS, JavaScript
